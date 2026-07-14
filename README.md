@@ -1,5 +1,9 @@
 # Interactive Science-Communication Website Framework
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21356399.svg)](https://doi.org/10.5281/zenodo.21356399)
+[![License: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-blue.svg)](LICENSE)
+[![Code: MIT](https://img.shields.io/badge/Code-MIT-green.svg)](LICENSE)
+
 A reusable **Product Requirements Document (PRD)** and design framework for turning
 a scientific manuscript into an **accessible, precise, visually coherent, and
 interactive outreach website**.
@@ -44,9 +48,35 @@ trust, without diluting the science.
 - **Be honest.** Label manuscript status, hedge preliminary claims, separate the toy demo from the peer-reviewed analysis, and link to data and code.
 - **Access is communication.** Keyboard, contrast, screen readers, reduced motion, and mobile readability are requirements, not polish.
 
+## How to cite
+
+If this framework helped you build an outreach site, please cite it:
+
+> Archila-Meléndez, M. E. (2026). *Interactive Science-Communication Website
+> Framework (PRD)* (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.21356399
+
+```bibtex
+@software{ArchilaMelendez2026scicommprd,
+  author    = {Archila-Mel{\'e}ndez, Mario E.},
+  title     = {Interactive Science-Communication Website Framework (PRD)},
+  year      = {2026},
+  version   = {v1.0.0},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.21356399},
+  url       = {https://doi.org/10.5281/zenodo.21356399}
+}
+```
+
+| DOI | Resolves to |
+| --- | --- |
+| [`10.5281/zenodo.21356399`](https://doi.org/10.5281/zenodo.21356399) | **All versions.** Cite this one unless you need to pin a version. |
+| [`10.5281/zenodo.21356400`](https://doi.org/10.5281/zenodo.21356400) | Version `v1.0.0` specifically. |
+
+Machine-readable metadata is in [`CITATION.cff`](CITATION.cff).
+
 ## Reuse, attribution, and license
 
-- **License (default):** documentation under **CC BY 4.0**; example code under a permissive license (e.g. MIT). Set this explicitly in `LICENSE`.
+- **License:** documentation under **CC BY 4.0**; code samples under **MIT**. See [`LICENSE`](LICENSE).
 - **Attribution:** keep credit to this framework, and to the notation-design lineage (Fred Hohman's *Awesome Mathematical Notation Design*; Piotr Migdał's *Equations Explained Colorfully*; BetterExplained; Stuart Riffle) where the notation rules are used.
 - **Responsible reuse:** forks must preserve the scientific-integrity, honest-caveat, and accessibility requirements; they are the point of the framework.
 

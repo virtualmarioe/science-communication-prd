@@ -9,6 +9,7 @@ manuscript into an accessible, precise, visually coherent, interactive outreach 
 | Status of this document | Stable, reusable framework |
 | License | Creative Commons Attribution 4.0 (CC BY 4.0). *(Default assumption; change to fit your policy)* |
 | Provenance | Distilled from a first complete project: an interactive companion site for a peer-reviewed neuroimaging manuscript on how neurovascular coupling impairments reshape BOLD-based functional connectivity. That project is used throughout as the **worked example**. |
+| DOI | [10.5281/zenodo.21356399](https://doi.org/10.5281/zenodo.21356399) (concept DOI, always the latest version) |
 | How to cite | See [§10.4](#104-attribution-citation-and-licensing). |
 
 > **Requirement language.** This document uses **MUST** (mandatory), **SHOULD**
@@ -529,13 +530,28 @@ the point of the framework, not optional. Adapters **SHOULD** keep the layered
 explanation and honest-caveat patterns even when restyling.
 
 ### 10.4 Attribution, citation, and licensing
-- **License (Default assumption):** documentation under **CC BY 4.0**; example
-  code under a permissive software license (e.g. MIT). Set explicitly in `LICENSE`.
+- **License:** documentation under **CC BY 4.0**; code samples under **MIT**.
+  Set explicitly in `LICENSE`.
 - **Attribution:** retain credit to this framework and to the notation-design
   lineage (Hohman; Migdał; BetterExplained; Riffle) where the notation rules are used.
-- **Citation:** provide a `CITATION.cff`. Suggested human-readable form:
-  *"{{YOUR_NAME}} et al. Interactive Science-Communication Website Framework (PRD),
-  version 1.0.0. {{YEAR}}. {{REPO_URL}}."*
+
+**Citing this framework.** Cite the **concept DOI**, which always resolves to the
+latest version:
+
+> Archila-Meléndez, M. E. (2026). *Interactive Science-Communication Website
+> Framework (PRD)* (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.21356399
+
+| DOI | Resolves to |
+| --- | --- |
+| `10.5281/zenodo.21356399` | All versions (cite this one) |
+| `10.5281/zenodo.21356400` | Version `v1.0.0` specifically |
+
+**Citing your own derived site.** Provide a `CITATION.cff` in your project and
+archive a release (e.g. via Zenodo) so the site itself is citable. Suggested form:
+
+> *"{{YOUR_NAME}} et al. {{SITE_TITLE}}. {{YEAR}}. {{REPO_URL}}. {{DOI}}.
+> Built with the Interactive Science-Communication Website Framework,
+> https://doi.org/10.5281/zenodo.21356399."*
 
 ---
 

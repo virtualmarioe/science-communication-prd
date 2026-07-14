@@ -11,6 +11,14 @@ authors:
       Department of Diagnostic and Interventional Neuroradiology,
       TUM-Neuroimaging Center, Klinikum rechts der Isar,
       Technical University of Munich, Munich, Germany
+doi: 10.5281/zenodo.21356399
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21356399
+    description: Concept DOI, always resolves to the latest version. Cite this one.
+  - type: doi
+    value: 10.5281/zenodo.21356400
+    description: DOI of version v1.0.0.
 repository-code: 'https://github.com/virtualmarioe/science-communication-prd'
 abstract: >-
   A reusable Product Requirements Document and design framework for turning a
