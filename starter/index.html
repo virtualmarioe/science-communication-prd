@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ==========================================================================
+     {{SITE_TITLE}} - starter template
+     Interactive Science-Communication Website Framework
+     https://github.com/virtualmarioe/science-communication-prd
+
+     HOW TO ADAPT THIS FILE
+     1. Edit the CONFIG block in the <script> at the bottom (concepts, colours,
+        term definitions). Everything else derives from it: CSS colour tokens,
+        equation colours, the legend, and the tooltips.
+     2. Replace every {{PLACEHOLDER}} with your manuscript's content.
+     3. Replace the toy model (drive / damping / response) with your own.
+     4. Work through CHECKLIST.md before publishing.
+     ========================================================================== -->
+
+<title>{{SITE_TITLE}}</title>
+<meta name="description" content="{{ONE_LINE_SUMMARY}}">
+
+<!-- KaTeX for equation rendering (MathML output = screen-reader accessible) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+
+<style>
+/* ===========================================================================
+   1. DESIGN TOKENS
+   Concept colours are injected at runtime from CONFIG as --c-<key>.
+   Only the neutral scaffolding lives here.
+   =========================================================================== */
+:root {
+  --ink:        #0f172a;   /* primary text            */
+  --ink-soft:   #334155;   /* body text               */
+  --ink-muted:  #64748b;   /* captions, hints         */
+  --constant:   #94a3b8;   /* calibration constants   */
+  --line:       #e2e8f0;   /* hairlines               */
+  --surface:    #ffffff;   /* page                    */
+  --card:       #f8fafc;   /* cards, callouts (flat!) */
+  --accent:     #b45309;   /* links, focus            */
+  --maxw:       1120px;
+  --radius:     10px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--surface); color: var(--ink-soft);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased;
+}
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+section { padding: 56px 0; }
+h1, h2, h3, h4 { color: var(--ink); line-height: 1.25; }
+p { margin: 10px 0; }
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(180,83,9,.35); }
+a:hover { border-bottom-color: var(--accent); }
+
+/* Accessibility: always-visible focus ring (PRD 12.1) */
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* Skip link */
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 12px; top: 12px; background: var(--ink); color: #fff; padding: 10px 14px; border-radius: 8px; z-index: 99; }
+
+/* Section headers */
+.eyebrow { font-size: .72rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--accent); }
+.section-title { font-size: 1.9rem; font-weight: 800; margin: 6px 0 10px; }
+.section-desc { color: var(--ink-soft); max-width: 70ch; }
+
+/* ===========================================================================
+   2. HERO + STATUS BADGE  (PRD 7.1, 9.1)
+   =========================================================================== */
+.hero { text-align: center; padding: 64px 0 40px; }
+.hero h1 { font-size: 2.4rem; font-weight: 900; margin: 14px 0; }
+.hero .sub { color: var(--ink-soft); max-width: 62ch; margin: 0 auto; }
+.status-badge {
+  display: inline-block; font-size: .72rem; font-weight: 800; letter-spacing: .08em;
+  text-transform: uppercase; padding: 6px 14px; border-radius: 999px;
+  background: #fef3c7; color: #92400e;
+}
+.status-badge[data-status="published"] { background: #dcfce7; color: #166534; }
+.status-badge[data-status="preprint"],
+.status-badge[data-status="under review"] { background: #fef3c7; color: #92400e; }
+.hero-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+.btn {
+  border: 1px solid var(--line); background: #fff; color: var(--ink);
+  padding: 11px 20px; border-radius: 999px; font-weight: 700; font-size: .9rem;
+  border-bottom: 1px solid var(--line);
+}
+.btn:hover { border-color: var(--ink-muted); }
+.btn-primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+/* ===========================================================================
+   3. CARDS AND CALLOUTS
+   House rule (PRD 6.5): NO accent side bars. Flat, homogeneous, very light.
+   =========================================================================== */
+.card, .callout {
+  background: var(--card); border: none; border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.callout { margin: 14px 0; font-size: .92rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 18px 0; }
+.card h4 { font-size: 1rem; margin: 0 0 6px; }
+.card p { margin: 0; font-size: .92rem; }
+.takeaway { background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin: 18px 0; }
+
+/* Tables (comparison, symbols, glossary) */
+table.tbl { width: 100%; border-collapse: collapse; font-size: .85rem; margin: 12px 0; }
+table.tbl caption { text-align: left; font-weight: 800; color: var(--ink-soft); margin-bottom: 8px; font-size: .85rem; }
+table.tbl th, table.tbl td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.tbl thead th { color: var(--ink-soft); font-weight: 700; }
+table.tbl td:first-child, table.tbl th:first-child { font-weight: 700; color: var(--ink); }
+.table-wrap { overflow-x: auto; }
+.sym td:first-child { font-family: "Cambria Math", Cambria, serif; white-space: nowrap; }
+
+/* ===========================================================================
+   4. EQUATIONS  (PRD 3.2, 7.4, Appendix D)
+   =========================================================================== */
+details.tech { border-radius: var(--radius); background: var(--card); margin: 18px 0; }
+details.tech > summary {
+  cursor: pointer; padding: 14px 18px; font-weight: 800; color: var(--ink); list-style: none;
+}
+details.tech > summary::-webkit-details-marker { display: none; }
+details.tech > summary::before { content: "+\00a0"; color: var(--accent); font-weight: 900; }
+details.tech[open] > summary::before { content: "\2212\00a0"; }
+.math { padding: 0 18px 18px; }
+.eq-h { font-weight: 800; font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); margin: 22px 0 2px; }
+.eq-h span { color: var(--constant); font-weight: 700; }
+.eq-sub { font-size: .82rem; color: var(--ink-muted); margin: 2px 0 8px; }
+.eq {
+  background: #fff; border: 1px solid var(--line); border-radius: 8px;
+  padding: 16px; margin: 10px 0; text-align: center;
+  overflow-x: auto; overflow-y: hidden;               /* mobile: scroll, never overflow */
+  font-family: "Cambria Math", Cambria, serif;
+}
+.eq .katex { font-size: 1.3em; }
+.eq [data-term] { cursor: help; }
+.eq [data-term]:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.eq-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 14px 0 6px; }
+.eq-legend span { display: inline-flex; align-items: center; gap: 7px; font-size: .8rem; color: var(--ink-soft); cursor: help; }
+.eq-legend span::before { content: ""; width: 11px; height: 11px; border-radius: 3px; background: var(--c, var(--constant)); flex: 0 0 auto; }
+.eq-hint { font-size: .78rem; color: var(--constant); margin: 6px 0 0; }
+
+/* ===========================================================================
+   5. TOOLTIP  (PRD 6.6)
+   Dark, blurred, tinted to the concept colour. Works on hover AND focus.
+   Colours are set inline from CONFIG, so there is no per-concept CSS here.
+   =========================================================================== */
+.tip-host { position: relative; }
+.tooltip {
+  position: absolute; top: 0; left: 0; z-index: 20;
+  pointer-events: none; opacity: 0;
+  display: flex; flex-direction: column; gap: 4px;
+  max-width: 260px; padding: 9px 12px; border-radius: 9px;
+  color: #f1f5f9; font-size: .8rem; font-weight: 500; line-height: 1.45;
+  border: 1.5px solid transparent;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  transition: opacity .12s ease;
+}
+.tooltip.visible { opacity: 1; }
+.tooltip .tip-name { font-weight: 800; font-size: .82rem; }
+.tooltip .tip-desc { font-weight: 500; font-size: .76rem; color: #e2e8f0; }
+
+/* ===========================================================================
+   6. DEMO  (PRD 5)
+   =========================================================================== */
+.demo { display: grid; grid-template-columns: 1fr 1.4fr; gap: 20px; align-items: start; margin: 18px 0; }
+.panel { background: var(--card); border-radius: var(--radius); padding: 16px 18px; }
+.panel h4 { margin: 0 0 4px; font-size: 1rem; }
+.hint { font-size: .78rem; color: var(--ink-muted); margin: 0 0 10px; }
+.slider { margin: 16px 0; }
+.slider label { display: flex; justify-content: space-between; font-size: .85rem; font-weight: 600; color: var(--ink); }
+.slider input[type=range] { width: 100%; margin-top: 6px; accent-color: var(--c, var(--accent)); }
+.metric { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 12px; }
+.metric div { background: #fff; border-radius: 8px; padding: 10px 14px; }
+.metric .k { font-size: .72rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.metric .v { font-size: 1.3rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+svg.plot { width: 100%; height: auto; display: block; }
+
+/* ===========================================================================
+   7. MOTION  (PRD 12.4)
+   =========================================================================== */
+.fade { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
+.fade.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade { opacity: 1; transform: none; transition: none; }
+  .tooltip { transition: none; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+
+/* ===========================================================================
+   8. RESPONSIVE  (PRD 12.5)
+   =========================================================================== */
+@media (max-width: 820px) {
+  .demo { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 1.8rem; }
+  .section-title { font-size: 1.5rem; }
+  section { padding: 40px 0; }
+}
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ====================== HERO (PRD 7.1) ====================== -->
+<header class="hero">
+  <div class="container">
+    <!-- Manuscript status is REQUIRED and must be honest (PRD 9.1) -->
+    <span class="status-badge" data-status="{{STATUS}}">{{STATUS}}</span>
+    <h1>{{TITLE}}</h1>
+    <p class="sub">{{ONE_LINE_SUMMARY}}</p>
+    <div class="hero-buttons">
+      <a class="btn btn-primary" href="{{PAPER_URL}}" target="_blank" rel="noopener">Read the paper</a>
+      <a class="btn" href="#explore">Try the demo</a>
+      <a class="btn" href="#cite">Cite</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ DISCLAIMER + PAPER-VS-DEMO TABLE (PRD 9.5, 7.10) ============
+     Keep this. It is the single most important guard against overinterpretation.
+     ======================================================================== -->
+<section id="about-demos">
+  <div class="container">
+    <div class="callout">
+      <p><strong>About the demos on this page.</strong> They are
+      <strong>simplified pedagogical tools</strong> built to develop intuition for
+      {{TOPIC}}. They are <em>not</em> the analysis reported in the manuscript and
+      should <strong>not</strong> be used for reanalysis, benchmarking, or
+      {{DOMAIN_SPECIFIC_INFERENCE, e.g. clinical inference}}.</p>
+
+      <div class="table-wrap">
+        <table class="tbl">
+          <caption>At a glance: what is the manuscript, and what is the demo</caption>
+          <thead><tr><th>Aspect</th><th>Manuscript</th><th>This site's demo</th></tr></thead>
+          <tbody>
+            <tr><td>Model</td><td>{{PAPER_MODEL}}</td><td>{{DEMO_MODEL}}</td></tr>
+            <tr><td>Input</td><td>{{PAPER_INPUT}}</td><td>{{DEMO_INPUT}}</td></tr>
+            <tr><td>Noise</td><td>{{PAPER_NOISE}}</td><td>{{DEMO_NOISE}}</td></tr>
+            <tr><td>Purpose</td><td>Quantitative research result</td><td>Pedagogical intuition</td></tr>
+            <tr><td>Valid use</td><td>Scientific reference</td><td>Educational exploration only</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== MOTIVATION (PRD 11 #2) ====================== -->
+<section id="motivation">
+  <div class="container">
+    <div class="eyebrow">Why this matters</div>
+    <h2 class="section-title">{{MOTIVATION_HEADING}}</h2>
+    <p class="section-desc">{{MOTIVATION}}</p>
+    <div class="takeaway"><strong>The question:</strong> {{RESEARCH_QUESTION}}</div>
+  </div>
+</section>
+
+<!-- =============== CONCEPTUAL BACKGROUND (PRD 4.1, 7.3) ===============
+     The picture before the equations. One concept card per core variable,
+     each in its own colour: the same colour it keeps everywhere on the page.
+     =================================================================== -->
+<section id="concepts">
+  <div class="container">
+    <div class="eyebrow">Start here</div>
+    <h2 class="section-title">{{METAPHOR_HEADING}}</h2>
+    <p class="section-desc">{{METAPHOR}}</p>
+
+    <div class="cards fade">
+      <!-- data-concept pulls the colour from CONFIG. Add one card per concept. -->
+      <div class="card">
+        <h4><span data-concept="drive">Drive</span></h4>
+        <p>{{CONCEPT_DRIVE_BLURB}} In the toy model below this is the input that pushes the system.</p>
+      </div>
+      <div class="card">
+        <h4><span data-concept="damping">Damping</span></h4>
+        <p>{{CONCEPT_DAMPING_BLURB}} It resists the drive and pulls the response back toward rest.</p>
+      </div>
+      <div class="card">
+        <h4><span data-concept="response">Response</span></h4>
+        <p>{{CONCEPT_RESPONSE_BLURB}} This is what you actually measure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== INTERACTIVE EXPLORATION (PRD 5) ======================
+     Every control must change what the reader understands. Each demo MUST
+     declare its model, parameters, noise, and what it does not reproduce.
+     ========================================================================= -->
+<section id="explore">
+  <div class="container">
+    <div class="eyebrow">Explore</div>
+    <h2 class="section-title">{{DEMO_HEADING}}</h2>
+    <p class="section-desc">{{DEMO_INTRO}} Move the sliders and watch the response change.</p>
+
+    <div class="demo fade">
+      <div class="panel">
+        <h4>Parameters</h4>
+        <p class="hint">Slider colours match the curve colours.</p>
+
+        <div class="slider" data-concept-slider="drive">
+          <label><span>Drive amplitude</span><span id="valDrive">1.00</span></label>
+          <input type="range" id="inDrive" min="0" max="200" value="100" step="1"
+                 aria-label="Drive amplitude">
+        </div>
+
+        <div class="slider" data-concept-slider="damping">
+          <label><span>Damping</span><span id="valDamp">0.30</span></label>
+          <input type="range" id="inDamp" min="5" max="100" value="30" step="1"
+                 aria-label="Damping">
+        </div>
+
+        <div class="metric">
+          <div>
+            <div class="k">Peak response</div>
+            <div class="v" id="valPeak" data-concept-text="response">-</div>
+          </div>
+          <div>
+            <div class="k">Time to peak</div>
+            <div class="v" id="valTpk">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>Response over time</h4>
+        <p class="hint">The measured signal produced by the current parameters.</p>
+        <svg class="plot" id="plot" viewBox="0 0 520 260" role="img"
+             aria-label="Response of the toy model over time for the current drive and damping"></svg>
+      </div>
+    </div>
+
+    <!-- Demo declaration: REQUIRED (PRD 5.5). Never ship a demo without this. -->
+    <details class="tech">
+      <summary>Show assumptions</summary>
+      <div class="math">
+        <table class="tbl">
+          <tbody>
+            <tr><td>Illustrates</td><td>{{MANUSCRIPT_CONCEPT_OR_FIGURE}}</td></tr>
+            <tr><td>Model computed</td><td>First-order linear system, dy/dt = u - &gamma;y, integrated with forward Euler</td></tr>
+            <tr><td>Parameters</td><td>dt = 0.05 s, T = 20 s, step drive from t = 1 s to t = 6 s</td></tr>
+            <tr><td>Noise</td><td>None (deterministic)</td></tr>
+            <tr><td>Does NOT reproduce</td><td>{{WHAT_THE_DEMO_DOES_NOT_REPRODUCE}}</td></tr>
+          </tbody>
+        </table>
+        <p class="eq-hint">Values shown are model-dependent and are not quantitative predictions.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ====================== MATHEMATICS (PRD 3.2, 3.4, Appendix D) ======================
+     Layer the models explicitly. Colour + bold on meaningful terms; constants muted.
+     TeX authoring:
+        meaningful term   \htmlData{term=<key>}{\boldsymbol{y}}     <- colour from CONFIG
+        muted constant    \htmlData{muted=true}{k_1}
+        annotation label  \underbrace{...}_{\htmlData{muted=true}{\text{plain words}}}
+     Never hard-code a hex in the TeX. CONFIG is the single source of truth.
+     The inner text of .eq is the accessible fallback: use ^( ) for exponents.
+     ================================================================================ -->
+<section id="math">
+  <div class="container">
+    <div class="eyebrow">The formalism</div>
+    <h2 class="section-title">The mathematics</h2>
+    <p class="section-desc">Collapsed by default, so the page reads smoothly without it and completely with it.</p>
+
+    <details class="tech">
+      <summary>Show me the math</summary>
+      <div class="math tip-host">
+
+        <p>Keep the layers apart: the model as it is usually written, the manuscript's
+        version, and the simplified engine the demo actually runs.</p>
+
+        <div class="eq-h">1 &middot; The governing equation</div>
+        <p class="eq-sub">The response relaxes toward the drive at a rate set by the damping:</p>
+
+        <div class="eq" role="math"
+             data-tex="\frac{d\,\htmlData{term=response}{\boldsymbol{y}}}{dt} \;=\; \underbrace{\htmlData{term=drive}{\boldsymbol{u}}(t)}_{\htmlData{muted=true}{\text{drive in}}} \;-\; \underbrace{\htmlData{term=damping}{\boldsymbol{\gamma}}\,\htmlData{term=response}{\boldsymbol{y}}(t)}_{\htmlData{muted=true}{\text{damped away}}}">
+          dy/dt = u(t) - gamma*y(t)
+        </div>
+
+        <div class="eq-h">2 &middot; Steady state</div>
+        <p class="eq-sub">Set the derivative to zero and the balance point falls out:</p>
+
+        <div class="eq" role="math"
+             data-tex="\htmlData{term=response}{\boldsymbol{y}}_\infty \;=\; \frac{\htmlData{term=drive}{\boldsymbol{u}}}{\htmlData{term=damping}{\boldsymbol{\gamma}}}, \qquad \tau \;=\; \frac{\htmlData{muted=true}{1}}{\htmlData{term=damping}{\boldsymbol{\gamma}}}">
+          y_inf = u / gamma,   tau = 1 / gamma
+        </div>
+
+        <div class="eq-h">3 &middot; With calibration constants <span>&middot; scaffolding is muted on purpose</span></div>
+        <p class="eq-sub">Observation model. The grey symbols are calibration constants: they scale the
+        result but carry no scientific meaning, so they recede.</p>
+
+        <div class="eq" role="math"
+             data-tex="\htmlData{muted=true}{S} \;=\; \htmlData{muted=true}{S_0}\Bigl[\htmlData{muted=true}{k_1}\,\htmlData{term=response}{\boldsymbol{y}} \;+\; \htmlData{muted=true}{k_2}\,\htmlData{term=response}{\boldsymbol{y}}^{\,\htmlData{muted=true}{2}}\Bigr]">
+          S = S_0 * [ k_1*y + k_2*y^(2) ]
+        </div>
+
+        <!-- Legend is generated from CONFIG. Do not hand-write it. -->
+        <div class="eq-legend" id="legend"></div>
+        <p class="eq-hint">Hover or focus any coloured symbol, in the legend or the equations, for its definition.
+        Every definition also appears in the symbol table and glossary below, so nothing is hover-only.</p>
+
+        <div class="eq-h">Symbols</div>
+        <div class="table-wrap">
+          <table class="tbl sym">
+            <thead><tr><th>Symbol</th><th>Meaning</th><th>Units / normalisation</th></tr></thead>
+            <tbody id="symbolTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ====================== LIMITATIONS (PRD 7.11, 9.3) ====================== -->
+<section id="limitations">
+  <div class="container">
+    <div class="eyebrow">Honest caveats</div>
+    <h2 class="section-title">Limitations</h2>
+    <div class="callout">
+      <ul>
+        <li>{{LIMITATION_1}}</li>
+        <li>{{LIMITATION_2}}</li>
+        <li>{{LIMITATION_3}}</li>
+        <li>Numbers produced by the demo are model-dependent and are not predictions.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== GLOSSARY (PRD 7.7) ====================== -->
+<section id="glossary">
+  <div class="container">
+    <div class="eyebrow">Reference</div>
+    <h2 class="section-title">Glossary</h2>
+    <div class="table-wrap">
+      <table class="tbl"><tbody id="glossaryTable"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CITATION + REPRODUCIBILITY (PRD 7.12, 7.13, 9.4) ============ -->
+<section id="cite">
+  <div class="container">
+    <div class="eyebrow">Cite and reproduce</div>
+    <h2 class="section-title">Citation, data, and code</h2>
+    <div class="callout">
+      <p>{{FULL_CITATION}}</p>
+      <p>
+        <a href="{{PAPER_URL}}" target="_blank" rel="noopener">Manuscript</a> &middot;
+        <a href="{{DATA_URL}}" target="_blank" rel="noopener">Data</a> &middot;
+        <a href="{{CODE_URL}}" target="_blank" rel="noopener">Code</a> &middot;
+        <a href="{{SUPP_URL}}" target="_blank" rel="noopener">Supplementary material</a>
+      </p>
+      <p class="eq-hint">Status: {{STATUS}}. {{IF_NOT_PEER_REVIEWED: These findings are preliminary and may change after peer review.}}</p>
+    </div>
+  </div>
+</section>
+
+<section id="colophon">
+  <div class="container">
+    <p class="eq-hint">
+      This site was built with the
+      <a href="https://github.com/virtualmarioe/science-communication-prd" target="_blank" rel="noopener">Interactive
+      Science-Communication Website Framework</a>. Equation design follows Fred Hohman's
+      <em>Awesome Mathematical Notation Design</em> and Piotr Migda&#322;'s <em>Equations Explained Colorfully</em>.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* ===========================================================================
+   CONFIG - THE SINGLE PLACE YOU EDIT
+   Each concept defines: the symbol, a human label, ONE colour, a definition,
+   and units. From this we derive: CSS colour tokens, equation colours, the
+   legend, the tooltips, the symbol table, and the glossary.
+   Add, remove, or rename concepts freely. Keys are referenced from the HTML
+   (data-concept="key") and the TeX (\htmlData{term=key}{...}).
+   =========================================================================== */
+const CONFIG = {
+  concepts: {
+    drive: {
+      symbol: 'u(t)',
+      label: 'Drive',
+      color: '#0ea5e9',                       // sky blue
+      desc: 'The input that pushes the system. {{REPLACE with your concept.}}',
+      units: 'Dimensionless'
+    },
+    damping: {
+      symbol: 'γ',
+      label: 'Damping',
+      color: '#dc2626',                       // red
+      desc: 'Resists the drive and pulls the response back to rest. Larger damping means a smaller, faster response.',
+      units: 'Per second'
+    },
+    response: {
+      symbol: 'y(t)',
+      label: 'Response',
+      color: '#16a34a',                       // green
+      desc: 'What you actually measure. It rises toward drive divided by damping.',
+      units: 'Dimensionless'
+    }
+  },
+
+  /* Extra glossary terms that are not equation symbols. */
+  glossary: {
+    'Steady state': 'The value the response settles to when the drive is held constant.',
+    'Time constant': 'How long the system takes to cover about 63% of the distance to its steady state.'
+  },
+
+  muted: '#94a3b8'   // calibration constants and annotation labels
+};
+
+/* ===========================================================================
+   1. Derive CSS colour tokens from CONFIG.
+   Gives you --c-drive, --c-damping, ... usable anywhere in CSS.
+   =========================================================================== */
+(function injectTokens() {
+  const root = document.documentElement;
+  for (const [key, c] of Object.entries(CONFIG.concepts)) {
+    root.style.setProperty('--c-' + key, c.color);
+  }
+  // Colour the concept names in cards, slider thumbs, and metric values.
+  document.querySelectorAll('[data-concept]').forEach(el => {
+    const c = CONFIG.concepts[el.dataset.concept];
+    if (c) { el.style.color = c.color; el.style.fontWeight = '800'; }
+  });
+  document.querySelectorAll('[data-concept-slider]').forEach(el => {
+    const c = CONFIG.concepts[el.dataset.conceptSlider];
+    if (c) el.style.setProperty('--c', c.color);
+  });
+  document.querySelectorAll('[data-concept-text]').forEach(el => {
+    const c = CONFIG.concepts[el.dataset.conceptText];
+    if (c) el.style.color = c.color;
+  });
+})();
+
+/* ===========================================================================
+   2. Tooltip engine (PRD 6.6, 5.4)
+   Derives its dark tinted look from the concept colour, so you never write
+   tooltip CSS. Opens on hover AND on keyboard focus AND on tap.
+   =========================================================================== */
+const Tip = (function () {
+  let tip = null, host = null;
+
+  const hex2rgb = h => {
+    const n = parseInt(h.replace('#', ''), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  };
+  // Lighten toward white, for a readable title on the dark card.
+  const lighten = (h, amt) => {
+    const [r, g, b] = hex2rgb(h);
+    const m = v => Math.round(v + (255 - v) * amt);
+    return `rgb(${m(r)}, ${m(g)}, ${m(b)})`;
+  };
+  const styleFor = color => {
+    const [r, g, b] = hex2rgb(color);
+    return {
+      bg: `linear-gradient(160deg, rgba(${r},${g},${b},0.55), rgba(15,23,42,0.96))`,
+      border: lighten(color, 0.45),
+      title: lighten(color, 0.55)
+    };
+  };
+
+  function ensure(h) {
+    host = h;
+    if (!host.classList.contains('tip-host')) host.classList.add('tip-host');
+    if (!tip) { tip = document.createElement('div'); tip.className = 'tooltip'; }
+    if (tip.parentNode !== host) host.appendChild(tip);
+    return tip;
+  }
+
+  function place(x, y) {
+    const r = host.getBoundingClientRect();
+    let left = x - r.left + 14, top = y - r.top + 14;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    if (left + tw > r.width - 4) left = x - r.left - tw - 14;
+    if (top + th > r.height - 4) top = y - r.top - th - 14;
+    tip.style.left = Math.max(4, left) + 'px';
+    tip.style.top = Math.max(4, top) + 'px';
+  }
+
+  function show(el, key, x, y) {
+    const c = CONFIG.concepts[key];
+    if (!c) return;
+    const h = el.closest('.tip-host') || el.closest('section') || document.body;
+    ensure(h);
+    const s = styleFor(c.color);
+    tip.innerHTML =
+      '<span class="tip-name" style="color:' + s.title + '">' + c.symbol + ' &middot; ' + c.label + '</span>' +
+      '<span class="tip-desc">' + c.desc + '</span>';
+    tip.style.background = s.bg;
+    tip.style.borderColor = s.border;
+    // Keyboard focus has no cursor: anchor to the element itself.
+    if (x == null) { const b = el.getBoundingClientRect(); x = b.left + b.width / 2; y = b.bottom; }
+    place(x, y);
+    tip.classList.add('visible');
+  }
+  const hide = () => tip && tip.classList.remove('visible');
+
+  /* Wire any element carrying data-term (equation symbols) or data-legend. */
+  function wire(scope) {
+    scope.querySelectorAll('[data-term], [data-legend]').forEach(el => {
+      if (el.dataset.wired) return;
+      el.dataset.wired = '1';
+      const key = el.getAttribute('data-term') || el.getAttribute('data-legend');
+      if (!CONFIG.concepts[key]) return;      // e.g. muted constants: no tooltip
+
+      // Non-hover path (PRD 5.4): make it focusable and describable.
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-label', CONFIG.concepts[key].label + ': ' + CONFIG.concepts[key].desc);
+
+      el.addEventListener('mouseenter', e => show(el, key, e.clientX, e.clientY));
+      el.addEventListener('mousemove', e => { if (tip && tip.classList.contains('visible')) place(e.clientX, e.clientY); });
+      el.addEventListener('mouseleave', hide);
+      el.addEventListener('focus', () => show(el, key, null, null));
+      el.addEventListener('blur', hide);
+      el.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
+      el.addEventListener('click', e => { e.preventDefault(); show(el, key, e.clientX, e.clientY); });
+    });
+  }
+  return { wire, hide };
+})();
+
+/* ===========================================================================
+   3. Equations: render with KaTeX, then paint the colours from CONFIG.
+   The TeX contains NO hex codes: \htmlData{term=key} and \htmlData{muted=true}
+   are coloured here. One source of truth.
+   =========================================================================== */
+function renderMath() {
+  if (!window.katex) return false;
+
+  document.querySelectorAll('.eq[data-tex]').forEach(el => {
+    if (el.dataset.done) return;
+    const fallback = el.textContent.trim();      // keep the accessible text form
+    try {
+      katex.render(el.getAttribute('data-tex'), el, {
+        displayMode: true, throwOnError: false, trust: true, strict: false,
+        output: 'htmlAndMathml'                  // MathML => screen readers
+      });
+      el.dataset.done = '1';
+      // If no explicit label was given, use the plain-text fallback as the label.
+      if (!el.hasAttribute('aria-label') && fallback) el.setAttribute('aria-label', fallback);
+    } catch (err) {
+      /* Leave the plain-text fallback in place: graceful degradation. */
+    }
+  });
+
+  // Paint colours: meaningful terms from CONFIG, constants muted.
+  document.querySelectorAll('.eq [data-term]').forEach(el => {
+    const c = CONFIG.concepts[el.getAttribute('data-term')];
+    if (c) el.style.color = c.color;
+  });
+  document.querySelectorAll('.eq [data-muted]').forEach(el => {
+    el.style.color = CONFIG.muted;
+  });
+
+  document.querySelectorAll('.math').forEach(m => Tip.wire(m));
+  return true;
+}
+if (!renderMath()) {
+  document.addEventListener('DOMContentLoaded', renderMath);
+  window.addEventListener('load', renderMath);
+}
+
+/* ===========================================================================
+   4. Legend, symbol table, glossary: all generated from CONFIG.
+   =========================================================================== */
+(function buildFromConfig() {
+  const legend = document.getElementById('legend');
+  const syms = document.getElementById('symbolTable');
+  const glos = document.getElementById('glossaryTable');
+
+  for (const [key, c] of Object.entries(CONFIG.concepts)) {
+    if (legend) {
+      const s = document.createElement('span');
+      s.style.setProperty('--c', c.color);
+      s.setAttribute('data-legend', key);
+      s.innerHTML = '<strong style="color:' + c.color + '">' + c.symbol + '</strong> ' + c.label;
+      legend.appendChild(s);
+    }
+    if (syms) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td style="color:' + c.color + '">' + c.symbol + '</td><td>' + c.desc + '</td><td>' + c.units + '</td>';
+      syms.appendChild(tr);
+    }
+    if (glos) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + c.label + '</td><td>' + c.desc + '</td>';
+      glos.appendChild(tr);
+    }
+  }
+  for (const [term, def] of Object.entries(CONFIG.glossary || {})) {
+    if (!glos) continue;
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + term + '</td><td>' + def + '</td>';
+    glos.appendChild(tr);
+  }
+  if (legend) Tip.wire(legend.parentNode);
+})();
+
+/* ===========================================================================
+   5. The demo. Replace this whole block with your own model.
+   Toy model: dy/dt = u(t) - gamma*y   (step drive, forward Euler)
+   Deterministic, so the reader sees exactly what the text describes (PRD 5.5).
+   =========================================================================== */
+(function demo() {
+  const svg = document.getElementById('plot');
+  if (!svg) return;
+  const inDrive = document.getElementById('inDrive');
+  const inDamp = document.getElementById('inDamp');
+  const NS = 'http://www.w3.org/2000/svg';
+  const W = 520, H = 260, P = { l: 44, r: 12, t: 14, b: 30 };
+  const DT = 0.05, T = 20, ON = 1, OFF = 6;
+
+  const simulate = (amp, gamma) => {
+    const ys = [], us = [];
+    let y = 0;
+    for (let i = 0; i * DT <= T; i++) {
+      const t = i * DT;
+      const u = (t >= ON && t < OFF) ? amp : 0;
+      y += DT * (u - gamma * y);
+      ys.push({ t, y });
+      us.push({ t, y: u });
+    }
+    return { ys, us };
+  };
+
+  const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+  function draw() {
+    const amp = (+inDrive.value) / 100;
+    const gamma = (+inDamp.value) / 100;
+    document.getElementById('valDrive').textContent = amp.toFixed(2);
+    document.getElementById('valDamp').textContent = gamma.toFixed(2);
+
+    const { ys, us } = simulate(amp, gamma);
+    const yMax = Math.max(1e-6, ...ys.map(p => p.y), ...us.map(p => p.y)) * 1.15;
+    const X = t => P.l + (t / T) * (W - P.l - P.r);
+    const Y = v => H - P.b - (v / yMax) * (H - P.t - P.b);
+
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    // axes
+    svg.appendChild(el('line', { x1: P.l, y1: H - P.b, x2: W - P.r, y2: H - P.b, stroke: '#cbd5e1' }));
+    svg.appendChild(el('line', { x1: P.l, y1: P.t, x2: P.l, y2: H - P.b, stroke: '#cbd5e1' }));
+    const xl = el('text', { x: (W) / 2, y: H - 6, 'text-anchor': 'middle', fill: '#64748b', 'font-size': 11 });
+    xl.textContent = 'time (s)'; svg.appendChild(xl);
+
+    const path = pts => 'M' + pts.map(p => X(p.t).toFixed(1) + ',' + Y(p.y).toFixed(1)).join('L');
+    // drive (input) and response (output), each in its concept colour
+    svg.appendChild(el('path', { d: path(us), fill: 'none', stroke: CONFIG.concepts.drive.color, 'stroke-width': 2, 'stroke-dasharray': '5 4', opacity: .85 }));
+    svg.appendChild(el('path', { d: path(ys), fill: 'none', stroke: CONFIG.concepts.response.color, 'stroke-width': 2.5 }));
+
+    // live derived metrics
+    const peak = ys.reduce((a, p) => (p.y > a.y ? p : a), { t: 0, y: 0 });
+    document.getElementById('valPeak').textContent = peak.y.toFixed(2);
+    document.getElementById('valTpk').textContent = peak.t.toFixed(1) + ' s';
+  }
+
+  inDrive.addEventListener('input', draw);
+  inDamp.addEventListener('input', draw);
+  draw();
+})();
+
+/* ===========================================================================
+   6. Scroll reveal, disabled entirely under prefers-reduced-motion (PRD 12.4)
+   =========================================================================== */
+(function reveal() {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = document.querySelectorAll('.fade');
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(e => e.classList.add('in'));
+    return;
+  }
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: .1 });
+  items.forEach(e => io.observe(e));
+})();
+</script>
+</body>
+</html>

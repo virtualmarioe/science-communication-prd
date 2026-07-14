@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+title: Interactive Science-Communication Website Framework (PRD)
+message: >-
+  If you use this framework to build an outreach website, please cite it.
+type: software
+authors:
+  - given-names: Mario E.
+    family-names: Archila-Meléndez
+    email: mario.archila@tum.de
+    affiliation: >-
+      Department of Diagnostic and Interventional Neuroradiology,
+      TUM-Neuroimaging Center, Klinikum rechts der Isar,
+      Technical University of Munich, Munich, Germany
+repository-code: 'https://github.com/virtualmarioe/science-communication-prd'
+abstract: >-
+  A reusable Product Requirements Document and design framework for turning a
+  scientific manuscript into an accessible, precise, visually coherent, and
+  interactive outreach website. Covers scientific-communication principles,
+  layered explanation architecture, interaction patterns, a semantic color and
+  notation-design system, component specifications, a manuscript-adaptation
+  workflow, responsible communication for pre-review work, accessibility and
+  performance requirements, and an open-source repository structure. Applicable
+  to pre-review manuscripts, preprints, and peer-reviewed papers in any field.
+keywords:
+  - science communication
+  - research outreach
+  - interactive visualization
+  - mathematical notation design
+  - accessibility
+  - preprint
+  - open science
+license: CC-BY-4.0
+version: 1.0.0
+date-released: '2026-07-14'
