@@ -1,8 +1,8 @@
 # Interactive Science-Communication Website Framework
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21356399.svg)](https://doi.org/10.5281/zenodo.21356399)
-[![License: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-blue.svg)](LICENSE)
-[![Code: MIT](https://img.shields.io/badge/Code-MIT-green.svg)](LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21356399-1682D4)](https://doi.org/10.5281/zenodo.21356399)
+[![Docs: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-blue)](LICENSE)
+[![Code: MIT](https://img.shields.io/badge/Code-MIT-green)](LICENSE)
 
 A reusable **Product Requirements Document (PRD)** and design framework for turning
 a scientific manuscript into an **accessible, precise, visually coherent, and
@@ -67,10 +67,19 @@ If this framework helped you build an outreach site, please cite it:
 }
 ```
 
-| DOI | Resolves to |
-| --- | --- |
-| [`10.5281/zenodo.21356399`](https://doi.org/10.5281/zenodo.21356399) | **All versions.** Cite this one unless you need to pin a version. |
-| [`10.5281/zenodo.21356400`](https://doi.org/10.5281/zenodo.21356400) | Version `v1.0.0` specifically. |
+### Which DOI is which
+
+Zenodo mints **two** DOIs. They are both correct; they point at different things.
+
+| DOI | Resolves to | Use it for |
+| --- | --- | --- |
+| [`10.5281/zenodo.21356399`](https://doi.org/10.5281/zenodo.21356399) | **All versions**, always redirecting to the newest release | The badge above, the citation, `CITATION.cff`. **Cite this one.** |
+| [`10.5281/zenodo.21356400`](https://doi.org/10.5281/zenodo.21356400) | **`v1.0.0` only**, a frozen snapshot | Reproducing exactly this version |
+
+The Zenodo record page prominently shows the *version* DOI (`...400`), which is why
+it differs from the badge. That is expected. The badge deliberately uses the
+concept DOI (`...399`) so that a citation made today still resolves correctly after
+`v1.1.0` is released, instead of pointing at a stale version forever.
 
 Machine-readable metadata is in [`CITATION.cff`](CITATION.cff).
 
