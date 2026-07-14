@@ -85,6 +85,11 @@ Machine-readable metadata is in [`CITATION.cff`](CITATION.cff).
 
 ## Reuse, attribution, and license
 
+[![CC BY 4.0](https://licensebuttons.net/l/by/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/)
+
+This work is licensed under a
+[Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
 - **License:** documentation under **CC BY 4.0**; code samples under **MIT**. See [`LICENSE`](LICENSE).
 - **Attribution:** keep credit to this framework, and to the notation-design lineage (Fred Hohman's *Awesome Mathematical Notation Design*; Piotr Migdał's *Equations Explained Colorfully*; BetterExplained; Stuart Riffle) where the notation rules are used.
 - **Responsible reuse:** forks must preserve the scientific-integrity, honest-caveat, and accessibility requirements; they are the point of the framework.
