@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f8fafc"/>
+    </linearGradient>
+  </defs>
+
+  <!-- canvas -->
+  <rect width="1280" height="640" fill="url(#bg)"/>
+
+  <!-- semantic-colour rule: one segment per concept colour, the project's signature -->
+  <g>
+    <rect x="0" y="0" width="183" height="8" fill="#0ea5e9"/>
+    <rect x="183" y="0" width="183" height="8" fill="#dc2626"/>
+    <rect x="366" y="0" width="183" height="8" fill="#16a34a"/>
+    <rect x="549" y="0" width="183" height="8" fill="#4338ca"/>
+    <rect x="732" y="0" width="183" height="8" fill="#0d9488"/>
+    <rect x="915" y="0" width="183" height="8" fill="#b45309"/>
+    <rect x="1098" y="0" width="182" height="8" fill="#d97706"/>
+  </g>
+
+  <!-- eyebrow -->
+  <text x="80" y="118" font-size="22" font-weight="700" letter-spacing="3" fill="#b45309">OPEN FRAMEWORK · CC BY 4.0</text>
+
+  <!-- title -->
+  <text x="78" y="212" font-size="66" font-weight="800" fill="#0f172a">Interactive Science-Communication</text>
+  <text x="78" y="288" font-size="66" font-weight="800" fill="#0f172a">Website Framework</text>
+
+  <!-- tagline -->
+  <text x="80" y="352" font-size="30" font-weight="400" fill="#334155">Turn a scientific manuscript into an accessible, accurate,</text>
+  <text x="80" y="394" font-size="30" font-weight="400" fill="#334155">interactive outreach website.</text>
+
+  <!-- concept chips: echo the starter's colour-per-concept system -->
+  <g font-size="26" font-weight="700">
+    <g>
+      <rect x="80" y="446" width="176" height="54" rx="27" fill="#e0f2fe"/>
+      <circle cx="116" cy="473" r="10" fill="#0ea5e9"/>
+      <text x="138" y="482" fill="#075985">Drive</text>
+    </g>
+    <g>
+      <rect x="272" y="446" width="214" height="54" rx="27" fill="#fee2e2"/>
+      <circle cx="308" cy="473" r="10" fill="#dc2626"/>
+      <text x="330" y="482" fill="#991b1b">Damping</text>
+    </g>
+    <g>
+      <rect x="502" y="446" width="222" height="54" rx="27" fill="#dcfce7"/>
+      <circle cx="538" cy="473" r="10" fill="#16a34a"/>
+      <text x="560" y="482" fill="#166534">Response</text>
+    </g>
+  </g>
+
+  <!-- colour-coded equation motif: the notation-design identity -->
+  <g font-family="Cambria Math, Georgia, serif" font-size="40" font-weight="700">
+    <text x="80" y="566" fill="#0f172a">
+      <tspan fill="#0f172a">dy/dt = </tspan><tspan fill="#0ea5e9">u</tspan><tspan fill="#0f172a"> &#8722; </tspan><tspan fill="#dc2626">&#947;</tspan><tspan fill="#16a34a">y</tspan>
+    </text>
+  </g>
+
+  <!-- footer meta -->
+  <text x="80" y="612" font-size="22" font-weight="500" fill="#64748b">github.com/virtualmarioe/science-communication-prd</text>
+  <text x="1200" y="612" font-size="22" font-weight="500" fill="#64748b" text-anchor="end">DOI 10.5281/zenodo.21356399</text>
+</svg>

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/social-card.png" alt="Interactive Science-Communication Website Framework: turn a scientific manuscript into an accessible, accurate, interactive outreach website." width="820">
+</p>
+
 # Interactive Science-Communication Website Framework
 
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21356399-1682D4)](https://doi.org/10.5281/zenodo.21356399)
