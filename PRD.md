@@ -432,7 +432,10 @@ to add project-specific components.
   repo social preview uses **1280x640**) carrying the title, a one-line summary,
   and the site's visual identity. Plus `<meta>` tags in `<head>`: `og:title`,
   `og:description`, `og:image` (an **absolute** URL), `og:type`, `og:url`,
-  `twitter:card` (`summary_large_image`), and `twitter:image`.
+  `twitter:card` (`summary_large_image`), and `twitter:image`. Also set
+  `og:image:secure_url` (the same absolute HTTPS URL) and `og:image:type`
+  (e.g. `image/png`): WhatsApp and other Facebook-crawler clients favour these
+  and are more likely to render the image reliably.
 - **Visual:** reuse the site's own design language, so the card and the page read
   as one system: the semantic colour palette ([§6.4](#64-color-as-scientific-encoding-core-rule)),
   the title type, and a small motif (e.g. a colour-coded equation or key figure).

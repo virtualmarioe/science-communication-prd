@@ -74,6 +74,7 @@ Copy this file into your project and check items off as you go. It operationaliz
 - [ ] Card image made (1200×630; GitHub repo preview 1280×640), in the site's visual language.
 - [ ] `og:image` / `twitter:image` set to **absolute** URLs in `index.html`; `og:image:alt` filled.
 - [ ] `og:title`, `og:description`, `og:url`, `twitter:card=summary_large_image` set.
+- [ ] `og:image:secure_url` (absolute HTTPS) and `og:image:type` set (helps WhatsApp render the card).
 - [ ] Nothing lives *only* on the card; it restates on-page content.
 - [ ] (GitHub) uploaded under **Settings → Social preview**.
 - [ ] Verified with a card debugger; re-scraped if it was cached.
