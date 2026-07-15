@@ -1,0 +1,64 @@
+<!--
+  Share card template (PRD 7.14). Open Graph standard size: 1200x630.
+  1. Replace the {{PLACEHOLDERS}}.
+  2. Set the seven top-rule colours and the three chip colours to YOUR concept
+     colours (the same hexes as CONFIG in index.html).
+  3. Rasterise to PNG:
+        npx --yes sharp-cli -i social-card.svg -o social-card.png --density 144 resize 1200 630
+  4. Host it and set {{OG_IMAGE_URL}} in index.html to its ABSOLUTE URL.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f8fafc"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Semantic-colour rule: one segment per concept colour (match CONFIG). -->
+  <g>
+    <rect x="0"    y="0" width="172" height="8" fill="#0ea5e9"/>
+    <rect x="172"  y="0" width="171" height="8" fill="#dc2626"/>
+    <rect x="343"  y="0" width="171" height="8" fill="#16a34a"/>
+    <rect x="514"  y="0" width="172" height="8" fill="#4338ca"/>
+    <rect x="686"  y="0" width="171" height="8" fill="#0d9488"/>
+    <rect x="857"  y="0" width="171" height="8" fill="#b45309"/>
+    <rect x="1028" y="0" width="172" height="8" fill="#d97706"/>
+  </g>
+
+  <!-- Eyebrow: manuscript status + venue (PRD 9.1). -->
+  <text x="72" y="112" font-size="22" font-weight="700" letter-spacing="3" fill="#b45309">{{STATUS}} · {{VENUE_OR_YEAR}}</text>
+
+  <!-- Title (keep to two lines; shorten if it wraps). -->
+  <text x="70" y="205" font-size="60" font-weight="800" fill="#0f172a">{{TITLE_LINE_1}}</text>
+  <text x="70" y="278" font-size="60" font-weight="800" fill="#0f172a">{{TITLE_LINE_2}}</text>
+
+  <!-- One-line summary. -->
+  <text x="72" y="340" font-size="29" font-weight="400" fill="#334155">{{SUMMARY_LINE_1}}</text>
+  <text x="72" y="380" font-size="29" font-weight="400" fill="#334155">{{SUMMARY_LINE_2}}</text>
+
+  <!-- Concept chips: echo your CONFIG concepts (colour, label). -->
+  <g font-size="25" font-weight="700">
+    <g>
+      <rect x="72" y="430" width="176" height="52" rx="26" fill="#e0f2fe"/>
+      <circle cx="106" cy="456" r="9" fill="#0ea5e9"/>
+      <text x="126" y="465" fill="#075985">{{CONCEPT_1}}</text>
+    </g>
+    <g>
+      <rect x="264" y="430" width="200" height="52" rx="26" fill="#fee2e2"/>
+      <circle cx="298" cy="456" r="9" fill="#dc2626"/>
+      <text x="318" y="465" fill="#991b1b">{{CONCEPT_2}}</text>
+    </g>
+    <g>
+      <rect x="480" y="430" width="210" height="52" rx="26" fill="#dcfce7"/>
+      <circle cx="514" cy="456" r="9" fill="#16a34a"/>
+      <text x="534" y="465" fill="#166534">{{CONCEPT_3}}</text>
+    </g>
+  </g>
+
+  <!-- Footer meta: site URL and citation handle (DOI if you have one). -->
+  <text x="72" y="590" font-size="21" font-weight="500" fill="#64748b">{{SITE_URL}}</text>
+  <text x="1128" y="590" font-size="21" font-weight="500" fill="#64748b" text-anchor="end">{{DOI_OR_CITATION}}</text>
+</svg>

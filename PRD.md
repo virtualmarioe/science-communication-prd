@@ -424,6 +424,31 @@ to add project-specific components.
 - **Content:** links to repo, data archive (e.g. Zenodo/OSF), supplementary materials.
 - **Placeholders:** `{{CODE_URL}}`, `{{DATA_URL}}`, `{{SUPP_URL}}`.
 
+### 7.14 Social preview / share card
+- **Purpose:** control how the site looks when its link is shared (social media,
+  chat, messaging, search). The share card is often the *first* thing a potential
+  reader sees, before they visit; a missing or generic card suppresses reach.
+- **Content:** a single **1200x630** image (the Open Graph standard; GitHub's
+  repo social preview uses **1280x640**) carrying the title, a one-line summary,
+  and the site's visual identity. Plus `<meta>` tags in `<head>`: `og:title`,
+  `og:description`, `og:image` (an **absolute** URL), `og:type`, `og:url`,
+  `twitter:card` (`summary_large_image`), and `twitter:image`.
+- **Visual:** reuse the site's own design language, so the card and the page read
+  as one system: the semantic colour palette ([§6.4](#64-color-as-scientific-encoding-core-rule)),
+  the title type, and a small motif (e.g. a colour-coded equation or key figure).
+  Keep text large and high-contrast; assume it is viewed as a thumbnail. Author it
+  as an **SVG** and rasterise to PNG, so edits (title, DOI, version) are a re-render,
+  not a redraw.
+- **Interaction behavior:** none. It is metadata plus a static image.
+- **Accessibility requirements:** the image is decorative *metadata*, but provide a
+  meaningful `og:image:alt`. Never put information in the card that exists *only*
+  there: it must restate content already on the page.
+- **Manuscript placeholders:** `{{OG_IMAGE_URL}}` (absolute), `{{SITE_URL}}`,
+  `{{TITLE}}`, `{{ONE_LINE_SUMMARY}}`.
+- **Note:** GitHub repository social previews are **not** set from the repo files;
+  upload the image under *Settings > Social preview*. Social platforms cache
+  cards aggressively: use their card debuggers to force a re-scrape after changes.
+
 ---
 
 ## 8. Manuscript-to-website adaptation workflow
@@ -688,7 +713,8 @@ for WCAG AA; (4) never rely on hue alone: pair with bold/label.
 `{{KEY_FINDING}}` · `{{METHOD}}` · `{{METHODS}}` · `{{EQUATIONS}}` ·
 `{{SYMBOLS}}` · `{{TERMS}}` · `{{DEMOS}}` · `{{COMPARISON}}` ·
 `{{LIMITATIONS}}` · `{{FURTHER_READING}}` · `{{CODE_URL}}` · `{{DATA_URL}}` ·
-`{{SUPP_URL}}` · `{{YEAR}}` · `{{YOUR_NAME}}` · `{{REPO_URL}}`
+`{{SUPP_URL}}` · `{{YEAR}}` · `{{YOUR_NAME}}` · `{{REPO_URL}}` ·
+`{{SITE_URL}}` · `{{OG_IMAGE_URL}}`
 
 ---
 

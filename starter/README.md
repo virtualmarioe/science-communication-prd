@@ -20,6 +20,7 @@ No build step. No dependencies to install. One HTML file plus a deploy workflow.
 | **Limitations, glossary, symbol table** | Generated from the same config | §7.7, §7.11 |
 | **Flat cards, no accent side bars** | House style | §6.5 |
 | **Reduced motion, focus rings, skip link, mobile reflow** | Accessibility is a communication requirement | §12 |
+| **Social share card** | Open Graph / Twitter tags + an editable card template, so the link looks right when shared | §7.14 |
 | **GitHub Pages workflow** | Push to `main`, the site deploys | §10.2 |
 
 ## Quick start
@@ -77,6 +78,30 @@ accessible fallback. **Never hard-code a colour in the TeX.**
   label. It is greyed so the real variables carry the eye.
 - Use `\boldsymbol{}` so colour is paired with weight (colour-blind safe).
 - The fallback text uses `^( )` for exponents: `y^(2)`, never `y2`.
+
+## The share card (how the link looks when shared)
+
+`index.html` already includes the Open Graph and Twitter meta tags. Two steps make
+them work:
+
+1. **Make the image.** Edit [`assets/social-card.svg`](assets/social-card.svg)
+   (title, summary, status, concept chips, colours to match your `CONFIG`), then
+   rasterise it:
+
+   ```bash
+   npx --yes sharp-cli -i assets/social-card.svg -o assets/social-card.png \
+     --density 144 resize 1200 630
+   ```
+
+2. **Point the tags at it.** In `index.html`, set `{{OG_IMAGE_URL}}` and
+   `{{SITE_URL}}` to **absolute** URLs (e.g.
+   `https://yourname.github.io/yourrepo/assets/social-card.png`). Relative URLs do
+   not work for social cards.
+
+Rules of thumb: 1200×630, large high-contrast text (it is seen as a thumbnail), and
+nothing that is not also on the page. For a **GitHub repository** preview, upload
+the PNG under **Settings → Social preview** (repo previews are not read from files).
+Social platforms cache cards, so use their debuggers to re-scrape after a change.
 
 ## Local preview
 
